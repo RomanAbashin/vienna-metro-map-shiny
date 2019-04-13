@@ -29,8 +29,17 @@ df <- st %>%
 shinyApp(
   ui = dashboardPage(
     dashboardHeader(title = "Vienna Metro Map"),
-    dashboardSidebar(),
+    dashboardSidebar(sidebarMenu(
+      menuItem("Dashboard", tabName = "dashboard", 
+               icon = icon("dashboard")),
+      menuItem("Documentation", tabName = "documentation",
+               icon = icon("book"), 
+               badgeLabel = "new", badgeColor = "green")
+    )),
     dashboardBody(
+      tabItems(
+        tabItem(tabName = "dashboard",
+                h2("Dashboard"),
       box(leafletOutput("map"),
           width = 12),
       box(prettyCheckboxGroup(inputId = "lines",
@@ -48,7 +57,19 @@ shinyApp(
                      width = 6),
       valueBoxOutput("stationBox",
                      width = 6)
-    )),
+    ),
+    tabItem(tabName = "documentation",
+              h2("Documentation"),
+            box("Just select one or more metro lines so they will be displayed on the map.",
+                width = 8),
+            box("The application also calculates the number of lines that you have selected and the number of stations on those lines.",
+                width = 8),
+            box("Stations with more than one line are, of course, counted only once.",
+                width = 8)
+            )
+    )
+    )
+    ),
   
       
     
